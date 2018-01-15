@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app>
+  <servlet>
+    <servlet-name>Pazzle</servlet-name>
+    <servlet-class>Servlet.PazzleServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Pazzle</servlet-name>
+    <url-pattern>/PazzleServlet</url-pattern>
+  </servlet-mapping>
+</web-app>
