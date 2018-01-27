@@ -23,12 +23,8 @@ public class PazzleServlet extends HttpServlet {
 
 		JSONArray json = scoreDao.selectScore();
 
-		System.out.println(json);
-//		int scoreArray[] = new int[10];
-//		for(int i = 0; i < json.length(); i++) {
-//			scoreArray[i] = json.get(i).score();
-//
-//		}
+		System.out.println("ダオの後" + json);
+
 		out.println(json);
 	}
 
@@ -41,8 +37,7 @@ public class PazzleServlet extends HttpServlet {
 
 		String num = request.getParameter("num");
 		String player = request.getParameter("player");
-
-
+		System.out.println("登録情報" + num + player);
 		scoreDao.InsertScore(num, player);
 
 	}

@@ -11,79 +11,17 @@ function StartGame() {
 	CreateField(line, column, body);
 	SetBlock('gameTable', line, column, 2);
 	SetBlock('gameTable', line, column, 2);
-	SetTableColor(line, column);
-	CalcRank()
-}
 
-function SetTableColor(side, vertical) {
-	for (let i = 0; i < vertical; i++) {
-		for (let j = 0; j < side; j++) {
-			var tdTag = document.getElementById('gameTable' + 'Side' + (i + 1) + 'gameTable' + 'Vertical' + (j + 1));
-			console.log(tdTag);
-			SetTdColor(tdTag);
-			if('block' + tdTag){
-				tdTag.setAttribute('style', 'font-size: 26pt;');
-			}
-		}
-	}
-}
+	let colorArray = ['pink','red','perple','blue','liteBlue','green','yellow'];
+	var colorFlg = colorArray[Math.floor(Math.random() * colorArray.length)];
+    document.getElementById('gameTable').setAttribute('data-tableColor', colorFlg);
+    document.getElementById('nowColor').innerHTML = '色: ' + colorFlg;
+    SetTableColor(line, column, colorFlg);
 
-function SetTdColor(td) {
-	var color;
-	console.log(td.getAttribute('data-block'));
-	if (td.getAttribute('data-block') == 2) {
-		console.log('2');
-		color = 'yellow';
-	}
-	if (td.getAttribute('data-block') == 4) {
-		color = 'gold';
-	}
-	if (td.getAttribute('data-block') == 8) {
-		color = 'orange';
-	}
-	if (td.getAttribute('data-block') == 16) {
-		color = 'darkorange';
-	}
-	if (td.getAttribute('data-block') == 32) {
-		color = 'chocolate';
-	}
-	if (td.getAttribute('data-block') == 64) {
-		color = 'red';
-	}
-	if (td.getAttribute('data-block') == 128) {
-		color = 'violet';
-	}
-	if (td.getAttribute('data-block') == 256) {
-		color = 'darkorchid';
-	}
-	if (td.getAttribute('data-block') == 512) {
-		color = 'purple';
-	}
-	if (td.getAttribute('data-block') == 1024) {
-		color = 'darkslateblue';
-	}
-	if (td.getAttribute('data-block') == 2048) {
-		color = 'blue';
-	}
-	if (td.getAttribute('data-block') == 4096) {
-		color = 'springgreen';
-	}
-	if (td.getAttribute('data-block') >= 8192) {
-		color = 'lime';
-	}
-
-	td.setAttribute('bgcolor', color);
-}
-
-
-function ContinuGame() {
-	StartGame();
+    CalcRank()
 }
 
 function CreateField(line, column, body) {
-//	var gameElement = CreateElement('div', 'gameElement');
-//	AddElement(body, gameElement);
-
 	var gameElement = document.getElementById('gameElement');
 	gameElement.removeAttribute('style');
 
@@ -116,8 +54,238 @@ function CreateField(line, column, body) {
 	var ten = document.getElementById('ten');
 	var number = CreateTextNode(4);
 	ten.setAttribute('data-num', 4);
+	ten.setAttribute('style', 'font-size: 26pt;');
 	AddElement(ten, number);
 
+}
+
+function SetBlock(id, line, column, number) {
+	var blockArray = CreateBlockArray(id, line, column);
+	var blockId = SelectRandomTd(blockArray);
+	CreateBlock(blockId, number);
+}
+
+function CalcRank() {
+	var rankNumber = document.getElementById('rankNumber');
+	var ten = document.getElementById('ten');
+
+	var num = parseInt(ten.getAttribute('data-num'));
+
+	DeleteElement(rankNumber, ten);
+	ten = CreateElement('div', 'ten');
+	AddElement(rankNumber, ten);
+	ten.setAttribute('data-num', num + 2);
+
+	var node = CreateTextNode(num + 2);
+	AddElement(ten, node);
+}
+
+function SetTableColor(side, vertical, colorFlg) {
+	for (let i = 0; i < vertical; i++) {
+		for (let j = 0; j < side; j++) {
+			var tdTag = document.getElementById('gameTable' + 'Side' + (i + 1) + 'gameTable' + 'Vertical' + (j + 1));
+			SetTdColor(tdTag, 'td', colorFlg);
+			if('block' + tdTag){
+				tdTag.setAttribute('style', 'font-size: 26pt;');
+			}
+		}
+	}
+}
+
+function SetTdColor(td, flg, colorFlg) {
+
+	var colorList;
+	var num = td.getAttribute('data-block');
+	var color;
+
+    if(flg == 'td') {
+	  td.setAttribute('data-color', colorFlg);
+	}
+
+	if(flg == 'number') {
+
+	}
+
+	switch(colorFlg) {
+	case 'pink':
+	//ピンク
+	colorList = {
+    null:function() {color = 'white'},
+	"2":function() {color = "#FFD5EC";},
+	"4":function() {color = "#FFBEDA";},
+	"8":function() {color = "#FFABCE";},
+	"16":function() {color = "#FF97C2";},
+	"32":function() {color = "#FF82B2";},
+	"64":function() {color = "#FF69A3";},
+	"128":function() {color = "#FF5192";},
+	"256":function() {color = "#FF367F";},
+	"512":function() {color = "#FF1A6F";},
+	"1024":function() {color = "#FF0461";},
+	"2048":function() {color = "#FF0461";},
+	"4096":function() {color = "#FF0461";},
+	"8192":function() {color = "#FF0461";},
+	"16384":function() {color = "#FF0461";},
+	"32768":function() {color = "#FF0461";}
+	};
+	break;
+
+	case 'red':
+	//赤
+	colorList = {
+    null:function() {color = 'white'},
+	"2":function() {color = "#FFDBC9";},
+	"4":function() {color = "#FFC7AF";},
+	"8":function() {color = "#FFAD90";},
+	"16":function() {color = "#FF9872";},
+	"32":function() {color = "#FF8856";},
+	"64":function() {color = "#FF773E";},
+	"128":function() {color = "#FF6928";},
+	"256":function() {color = "#FF5F17";},
+	"512":function() {color = "#FF570D";},
+	"1024":function() {color = "#FF4F02";},
+	"2048":function() {color = "#FF4F03";},
+	"4096":function() {color = "#FF4F04";},
+	"8192":function() {color = "#FF4F05";},
+	"16384":function() {color = "#FF4F06";},
+	"32768":function() {color = "#FF4F07";}
+	};
+	break;
+
+	case 'perple':
+	//紫
+	colorList = {
+    null:function() {color = 'white'},
+	"2":function() {color = "#EAD9FF";},
+	"4":function() {color = "#DCC2FF";},
+	"8":function() {color = "#D0B0FF";},
+	"16":function() {color = "#C299FF";},
+	"32":function() {color = "#B384FF";},
+	"64":function() {color = "#A16EFF";},
+	"128":function() {color = "#9057FF";},
+	"256":function() {color = "#7B3CFF";},
+	"512":function() {color = "#6927FF";},
+	"1024":function() {color = "#5507FF";},
+	"2048":function() {color = "#5507FF";},
+	"4096":function() {color = "#5507FF";},
+	"8192":function() {color = "#5507FF";},
+	"16384":function() {color = "#5507FF";},
+	"32768":function() {color = "#5507FF";}
+	};
+	break;
+
+	case 'blue':
+	//青
+	colorList = {
+    null:function() {color = 'white'},
+	"2":function() {color = "#D9E5FF";},
+	"4":function() {color = "#BAD3FF";},
+	"8":function() {color = "#A4C6FF";},
+	"16":function() {color = "#8EB8FF";},
+	"32":function() {color = "#75A9FF";},
+	"64":function() {color = "#5D99FF";},
+	"128":function() {color = "#4689FF";},
+	"256":function() {color = "#2C7CFF";},
+	"512":function() {color = "#136FFF";},
+	"1024":function() {color = "#005FFF";},
+	"2048":function() {color = "#005FFF";},
+	"4096":function() {color = "#005FFF";},
+	"8192":function() {color = "#005FFF";},
+	"16384":function() {color = "#005FFF";},
+	"32768":function() {color = "#005FFF";}
+	};
+	break;
+
+	case 'litebleu':
+	//水色
+	colorList = {
+    null:function() {color = 'white'},
+	"2":function() {color = "#CEF9DC";},
+	"4":function() {color = "#B1F9D0";},
+	"8":function() {color = "#9BF9CC";},
+	"16":function() {color = "#86F9C5";},
+	"32":function() {color = "#77F9C3";},
+	"64":function() {color = "#64F9C1";},
+	"128":function() {color = "#4DF9B9";},
+	"256":function() {color = "#30F9B2";},
+	"512":function() {color = "#17F9AD";},
+	"1024":function() {color = "#00F9A9";},
+	"2048":function() {color = "#00F9A9";},
+	"4096":function() {color = "#00F9A9";},
+	"8192":function() {color = "#00F9A9";},
+	"16384":function() {color = "#00F9A9";},
+	"32768":function() {color = "#00F9A9";}
+	};
+	break;
+
+	case 'green':
+	//緑
+	colorList = {
+    null:function() {color = 'white'},
+	"2":function() {color = "#E6FFE9";},
+	"4":function() {color = "#CBFFD3";},
+	"8":function() {color = "#AEFFBD";},
+	"16":function() {color = "#93FFAB";},
+	"32":function() {color = "#78FF94";},
+	"64":function() {color = "#5BFF7F";},
+	"128":function() {color = "#43FF6B";},
+	"256":function() {color = "#2DFF57";},
+	"512":function() {color = "#1BFF4A";},
+	"1024":function() {color = "#00FF3B";},
+	"2048":function() {color = "#00FF3B";},
+	"4096":function() {color = "#00FF3B";},
+	"8192":function() {color = "#00FF3B";},
+	"16384":function() {color = "#00FF3B";},
+	"32768":function() {color = "#00FF3B";}
+	};
+	break;
+
+	case 'yellow':
+	//黄色
+	colorList = {
+    null:function() {color = 'white'},
+	"2":function() {color = "#F3FFD8";},
+	"4":function() {color = "#EDFFBE";},
+	"8":function() {color = "#E9FFA5";},
+	"16":function() {color = "#E4FF8D";},
+	"32":function() {color = "#DBFF71";},
+	"64":function() {color = "#D6FF58";},
+	"128":function() {color = "#D0FF43";},
+	"256":function() {color = "#C9FF2F";},
+	"512":function() {color = "#BEFF15";},
+	"1024":function() {color = "#B6FF01";},
+	"2048":function() {color = "#B6FF01";},
+	"4096":function() {color = "#B6FF01";},
+	"8192":function() {color = "#B6FF01";},
+	"16384":function() {color = "#B6FF01";},
+	"32768":function() {color = "#B6FF01";}
+	};
+	break;
+	}
+	var prosece = colorList[num];
+	prosece();
+
+	if(flg == 'td') {
+		td.setAttribute('bgcolor', color);
+	}
+
+}
+
+function updateColor() {
+	var line = document.getElementById('gameTable').getAttribute('data-line');
+	var column = document.getElementById('gameTable').getAttribute('data-column');
+	let colorArray = ['pink','red','perple','blue','liteBlue','green','yellow'];
+	var colorFlg = colorArray[Math.floor(Math.random() * colorArray.length)];
+	SetTableColor(line, column, colorFlg);
+	document.getElementById('gameTable').setAttribute('data-tableColor', colorFlg);
+    document.getElementById('nowColor').innerHTML = '色: ' + colorFlg;
+}
+
+function tdColor(flg) {
+	var color;
+}
+
+function ContinuGame() {
+	StartGame();
 }
 
 function Rank() {
@@ -133,6 +301,7 @@ function Rank() {
 	    	console.log("読み込み成功");
 
 	    	var tableTag = document.getElementById('rankTable');
+	    	tableTag.setAttribute('style', 'margin: 0 auto;');
 	    	var count = data.length;
 	    	for(let i = 0; i < count; i++) {
 
@@ -263,60 +432,23 @@ function CreateBlock(id, number) {
 }
 
 function SetColor(block, number) {
-	var color;
-	if (number == 2) {
-		color = 'chocolate';
-	}
-	if (number == 4) {
-		color = 'red';
-	}
-	if (number == 8) {
-		color = 'violet';
-	}
-	if (number == 16) {
-		color = 'darkorchid';
-	}
-	if (number == 32) {
-		color = 'purple';
-	}
-	if (number == 64) {
-		color = 'darkslateblue';
-	}
-	if (number == 128) {
-		color = 'blue';
-	}
-	if (number == 256) {
-		color = 'springgreen';
-	}
-	if (number == 512) {
-		color = 'lime';
-	}
-	if (number == 1024) {
-		color = 'yellow';
-	}
-	if (number == 2048) {
-		color = 'gold';
-	}
-	if (number == 4096) {
-		color = 'orange';
-	}
-	if (number >= 8192) {
-		color = 'darkorange';
-	}
-
+	var color = 'block';
 
 	block.setAttribute('style', 'color: ' + color);
 	block.setAttribute('align', 'center');
 	block.setAttribute('data-num', number);
 }
 
-function SetBlock(id, line, column, number) {
-	var blockArray = CreateBlockArray(id, line, column);
-	var blockId = SelectRandomTd(blockArray);
-	CreateBlock(blockId, number);
-}
-
 function ReturnMenu() {
+
+	var insertFlg = document.getElementById('save').getAttribute('data-insertflg');
+	console.log(insertFlg);
+	if(insertFlg == 'true') {
+		document.getElementById('save').removeAttribute('data-insertflg')
+		document.getElementById('save').setAttribute('data-insertflg', '');
+		InsertRank();
+	}
+
 	document.getElementById('gameElement').setAttribute('style', 'display: none');
 	DeleteElement(document.getElementById('table'), document.getElementById('gameTable'));
 	DeleteElement(document.getElementById('gameElement'), document.getElementById('operationTable'));
@@ -326,6 +458,7 @@ function ReturnMenu() {
 		DeleteElement(document.getElementById('gameover'), document.getElementById('form'));
 	}
 	document.getElementById('menu').setAttribute('style', '');
+	return;
 }
 
 function ReturnMenu2() {
@@ -378,7 +511,6 @@ function Move() {
 
 }
 
-
 function LeftMotion(line, column) {
 	var arrayArray = [];
 	var count = 0;
@@ -415,7 +547,7 @@ function LeftMotion(line, column) {
 	}
 	TableSize('gameTable', column, line);
 	if (count == line) {
-		SetTableColor(line, column);
+		SetTableColor(line, column, document.getElementById('gameTable').getAttribute('data-tablecolor'));
 		return;
 	}
 	game = document.getElementById('gameTable');
@@ -424,7 +556,7 @@ function LeftMotion(line, column) {
 	CalcRank();
 
 	var flag = MoveFlag(line, column);
-	SetTableColor(line, column);
+	SetTableColor(line, column, document.getElementById('gameTable').getAttribute('data-tablecolor'));
 	GameOver(flag, line, column);
 }
 
@@ -457,7 +589,6 @@ function RightMotion(line, column) {
 		arrayArray[countLine] = blockArray;
 		if (stockArray.toString() == blockArray.toString()) {
 			count = count + 1;
-			console.log(count);
 		}
 	}
 	for (let countLine = 1; countLine < arrayArray.length; countLine++) {
@@ -465,7 +596,7 @@ function RightMotion(line, column) {
 	}
 	TableSize('gameTable', column, line);
 	if (count == line) {
-		SetTableColor(line, column);
+		SetTableColor(line, column, document.getElementById('gameTable').getAttribute('data-tablecolor'));
 		return;
 	}
 	game = document.getElementById('gameTable');
@@ -474,7 +605,7 @@ function RightMotion(line, column) {
 	CalcRank();
 
 	var flag = MoveFlag(line, column);
-	SetTableColor(line, column);
+	SetTableColor(line, column, document.getElementById('gameTable').getAttribute('data-tablecolor'));
 	GameOver(flag, line, column);
 }
 
@@ -497,7 +628,6 @@ function UpMotion(line, column) {
 		arrayArray[countColumn] = blockArray;
 		if (stockArray.toString() == blockArray.toString()) {
 			count = count + 1;
-			console.log(count);
 		}
 	}
 
@@ -518,7 +648,7 @@ function UpMotion(line, column) {
 	}
 	TableSize('gameTable', column, line);
 	if (count == column) {
-		SetTableColor(line, column);
+		SetTableColor(line, column, document.getElementById('gameTable').getAttribute('data-tablecolor'));
 		return;
 	}
 	game = document.getElementById('gameTable');
@@ -527,7 +657,7 @@ function UpMotion(line, column) {
 	CalcRank();
 
 	var flag = MoveFlag(line, column);
-	SetTableColor(line, column);
+	SetTableColor(line, column, document.getElementById('gameTable').getAttribute('data-tablecolor'));
 	GameOver(flag, line, column);
 }
 
@@ -549,7 +679,6 @@ function UnderMotion(line, column) {
 		arrayArray[countColumn] = blockArray;
 		if (stockArray.toString() == blockArray.toString()) {
 			count = count + 1;
-			console.log(count);
 		}
 	}
 
@@ -570,7 +699,7 @@ function UnderMotion(line, column) {
 	}
 	TableSize('gameTable', column, line);
 	if (count == column) {
-		SetTableColor(line, column);
+		SetTableColor(line, column, document.getElementById('gameTable').getAttribute('data-tablecolor'));
 		return;
 	}
 	game = document.getElementById('gameTable');
@@ -579,55 +708,35 @@ function UnderMotion(line, column) {
 	CalcRank();
 
 	var flag = MoveFlag(line, column);
-	SetTableColor(line, column);
+	SetTableColor(line, column, document.getElementById('gameTable').getAttribute('data-tablecolor'));
 	GameOver(flag, line, column);
 }
 
-function CalcRank() {
-	var rankNumber = document.getElementById('rankNumber');
-	var ten = document.getElementById('ten');
-
-	var num = parseInt(ten.getAttribute('data-num'));
-	console.log(rankNumber.getAttribute('data-num'));
-
-	DeleteElement(rankNumber, ten);
-	ten = CreateElement('div', 'ten');
-	AddElement(rankNumber, ten);
-	ten.setAttribute('data-num', num + 2);
-
-	var node = CreateTextNode(num + 2);
-	AddElement(ten, node);
-}
-
-
 function GameOver(flag, line, column) {
 	if(flag == (line*column)) {
-		console.log('gameover');
 
-//		DeleteElement(document.getElementById('gameElement'), document.getElementById('save'));
-
-//		var div = CreateElement('div', 'div');
-//		AddElement(document.getElementById('gameElement'), div);
+		document.getElementById('save').removeAttribute('data-insertflg');
+		document.getElementById('save').setAttribute('data-insertflg', 'true');
 
 		var gameOver = CreateElement('div', 'gameOver');
 		var text = CreateTextNode('GAMEOVER');
 		AddElement(gameOver, text);
 		AddElement(document.getElementById('gameover'), gameOver);
+		gameOver.setAttribute('style', 'font-size: 26pt; margin: 0 auto; width: 200px');
 
 		var popup = CreateElement('div', 'inputPlayer');
 		text = CreateTextNode('名前を入力してください');
 		AddElement(popup, text);
 		AddElement(gameover, popup);
+		popup.setAttribute('style', 'margin: 0 auto; width: 200px');
 
 		var form = CreateElement('form', 'form');
 		var textBox = CreateElement('input', 'textBox');
 		textBox.setAttribute('type', 'text');
 		AddElement(gameover, form);
 		AddElement(form, textBox);
-
-//		var saveButton = CreateButton('div', 'save', 'メニューに戻る', gameElement);
-//		saveButton.setAttribute('onclick', 'InsertRank()');
-
+		form.setAttribute('style', 'margin: 0 auto; width: 200px');
+		textBox.setAttribute('style', 'margin: 0 auto; width: 200px');
 	}
 }
 
@@ -670,8 +779,6 @@ function MoveFlag(line, column) {
 		for (countLine = 1; countLine <= line; countLine +=1) {
 			for (countColumn = 1; countColumn <= line; countColumn +=1) {
 				if(document.getElementById("gameTableSide" + countLine + "gameTableVertical" + countColumn).getAttribute('data-block') !== null) {
-					console.log(countLine);
-					console.log(countColumn);
 					id = "blockgameTableSide" + countLine + "gameTableVertical" + countColumn;
 					upId = "blockgameTableSide" + (countLine-1) + "gameTableVertical" + countColumn;
 					underId = "blockgameTableSide" + (countLine+1) + "gameTableVertical" + countColumn;
@@ -730,11 +837,6 @@ function MoveFlag(line, column) {
 						rightIdNum = document.getElementById(rightId).getAttribute('data-num');
 					}
 				}
-				console.log(idNum);
-				console.log(upIdNum);
-				console.log(underIdNum);
-				console.log(leftIdNum);
-				console.log(rightIdNum);
 
 				if((idNum!==upIdNum)&&(idNum!==underIdNum)&&(idNum!==leftIdNum)&&(idNum!==rightIdNum)) {
 					count = count + 1;
@@ -747,7 +849,6 @@ function MoveFlag(line, column) {
 			}
 		}
 	}
-	console.log(count);
 
 	return count;
 }
@@ -798,28 +899,6 @@ function CreateBlockArrayUpMotion(countColumn, line) {
 		countArray++;
 	}
 	return blockArray;
-}
-
-function DeleteNull(blockArray) {
-	var blockArrayLength = blockArray.length;
-	var nullCount = 0;
-	for (let i = 0; i < blockArrayLength; i++) {
-		if (blockArray[i] == null) {
-			blockArray.push(null);
-			nullCount++;
-		}
-	}
-
-	var deleteCount = 0;
-	notNullCount = 0;
-	for (let i = 0; i < nullCount; i) {
-		if (blockArray[notNullCount] == null) {
-			blockArray.splice(notNullCount, 1);
-			i++;
-		} else {
-			notNullCount++;
-		}
-	}
 }
 
 function CreateBlockArrayUnderMotion(countColumn, line) {

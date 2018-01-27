@@ -18,27 +18,24 @@ public class ScoreDao {
 
 		JSONArray json = new JSONArray();
 
-
-
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
-
+			System.out.println("rs:" + rs);
 			while (rs.next()) {
 				int score = rs.getInt("score");
 				String player = rs.getString("player");
 
 				JSONObject result = new JSONObject();
-				result.put("score", score);
-				result.put("player", player);
+				result.put("score:", score);
+				result.put("player:", player);
 
-
+				json.put(result);
 				System.out.println(json);
 			}
 
 
-
-			System.out.println(json);
+			System.out.println("Dao;" + json);
 
 			stmt.close();
 			con.close();
@@ -65,7 +62,7 @@ public class ScoreDao {
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setInt(1, score);
-			stmt.setString(2, player	);
+			stmt.setString(2, player);
 
 			stmt.executeUpdate();
 
