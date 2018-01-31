@@ -13,10 +13,10 @@ function StartGame() {
 	SetBlock('gameTable', line, column, 2);
 
 	let colorArray = ['pink','red','perple','blue','liteBlue','green','yellow'];
-	var colorFlg = colorArray[Math.floor(Math.random() * colorArray.length)];
-    document.getElementById('gameTable').setAttribute('data-tableColor', colorFlg);
-    document.getElementById('nowColor').innerHTML = '色: ' + colorFlg;
-    SetTableColor(line, column, colorFlg);
+	var colorNumber = Math.floor(Math.random() * colorArray.length);
+//	var colorFlg = colorArray[colorNumber];
+    document.getElementById('updateColor').setAttribute('data-tableColor', colorNumber);
+    SetTableColor(line, column, colorNumber);
 
     CalcRank()
 }
@@ -24,6 +24,7 @@ function StartGame() {
 function CreateField(line, column, body) {
 	var gameElement = document.getElementById('gameElement');
 	gameElement.removeAttribute('style');
+	gameElement.setAttribute('style', 'text-align: center;	');
 
 	var table = document.getElementById('table');
 	var game = CreateElement('table', 'gameTable');
@@ -97,6 +98,9 @@ function SetTdColor(td, flg, colorFlg) {
 	var colorList;
 	var num = td.getAttribute('data-block');
 	var color;
+
+	let colorArray = ['pink','red','perple','blue','liteBlue','green','yellow'];
+	colorFlg = colorArray[colorFlg];
 
     if(flg == 'td') {
 	  td.setAttribute('data-color', colorFlg);
@@ -267,17 +271,23 @@ function SetTdColor(td, flg, colorFlg) {
 	if(flg == 'td') {
 		td.setAttribute('bgcolor', color);
 	}
-
 }
 
 function updateColor() {
 	var line = document.getElementById('gameTable').getAttribute('data-line');
 	var column = document.getElementById('gameTable').getAttribute('data-column');
-	let colorArray = ['pink','red','perple','blue','liteBlue','green','yellow'];
-	var colorFlg = colorArray[Math.floor(Math.random() * colorArray.length)];
-	SetTableColor(line, column, colorFlg);
-	document.getElementById('gameTable').setAttribute('data-tableColor', colorFlg);
-    document.getElementById('nowColor').innerHTML = '色: ' + colorFlg;
+	let colorArray = ['#FF7FFF','#FF7F7F','#BF7FFF','#7F7FFF','#7FFFBF','#7FFF7F','#FFFF7F'];
+	var colorNumber = document.getElementById('updateColor').getAttribute('data-tablecolor');
+
+	console.log(colorNumber);
+	colorNumber = parseInt(colorNumber) + 1;
+	if(colorNumber == 7) {
+		colorNumber = 0;
+	}
+	console.log(colorNumber);
+	document.getElementById('updateColor').setAttribute('data-tablecolor', colorNumber);
+	SetTableColor(line, column, colorNumber);
+	document.getElementById('updateColor').setAttribute('style', 'background-color: ' + colorArray[colorNumber] + ';');
 }
 
 function tdColor(flg) {
@@ -290,9 +300,9 @@ function ContinuGame() {
 
 function Rank() {
 	var menuElement = document.getElementById('menu');
-	menuElement.setAttribute('style', 'display: none');
-	document.getElementById('rankPage').removeAttribute('style');
-
+	menuElement.style.display='none';
+	document.getElementById('rankPage').style.display='';//removeAttribute('style');
+//	document.getElementById('rankPage').setAttribute('style', 'text-align: center;');
 	$.ajax({
 	    url: 'http://localhost:8080/Pazzle/PazzleServlet',
 		type: 'GET',
@@ -457,14 +467,16 @@ function ReturnMenu() {
 		DeleteElement(document.getElementById('gameover'), document.getElementById('inputPlayer'));
 		DeleteElement(document.getElementById('gameover'), document.getElementById('form'));
 	}
-	document.getElementById('menu').setAttribute('style', '');
+	document.getElementById('menu').setAttribute('style', 'text-align: center;');
 	return;
 }
 
 function ReturnMenu2() {
-	document.getElementById('rankPage').setAttribute('style', 'display: none');
+	document.getElementById('rankPage').style.display='none';
+	var element = document.getElementById('rankTable');
+	while (element.firstChild) element.removeChild(element.firstChild);
 	//DeleteElement(document.body, document.getElementById('rankPage'));
-	document.getElementById('menu').setAttribute('style', '');
+	document.getElementById('menu').style.display='';//setAttribute('style', '');
 }
 
 function InsertRank() {
@@ -547,7 +559,7 @@ function LeftMotion(line, column) {
 	}
 	TableSize('gameTable', column, line);
 	if (count == line) {
-		SetTableColor(line, column, document.getElementById('gameTable').getAttribute('data-tablecolor'));
+		SetTableColor(line, column, document.getElementById('updateColor').getAttribute('data-tablecolor'));
 		return;
 	}
 	game = document.getElementById('gameTable');
@@ -556,7 +568,7 @@ function LeftMotion(line, column) {
 	CalcRank();
 
 	var flag = MoveFlag(line, column);
-	SetTableColor(line, column, document.getElementById('gameTable').getAttribute('data-tablecolor'));
+	SetTableColor(line, column, document.getElementById('updateColor').getAttribute('data-tablecolor'));
 	GameOver(flag, line, column);
 }
 
@@ -596,7 +608,7 @@ function RightMotion(line, column) {
 	}
 	TableSize('gameTable', column, line);
 	if (count == line) {
-		SetTableColor(line, column, document.getElementById('gameTable').getAttribute('data-tablecolor'));
+		SetTableColor(line, column, document.getElementById('updateColor').getAttribute('data-tablecolor'));
 		return;
 	}
 	game = document.getElementById('gameTable');
@@ -605,7 +617,7 @@ function RightMotion(line, column) {
 	CalcRank();
 
 	var flag = MoveFlag(line, column);
-	SetTableColor(line, column, document.getElementById('gameTable').getAttribute('data-tablecolor'));
+	SetTableColor(line, column, document.getElementById('updateColor').getAttribute('data-tablecolor'));
 	GameOver(flag, line, column);
 }
 
@@ -648,7 +660,7 @@ function UpMotion(line, column) {
 	}
 	TableSize('gameTable', column, line);
 	if (count == column) {
-		SetTableColor(line, column, document.getElementById('gameTable').getAttribute('data-tablecolor'));
+		SetTableColor(line, column, document.getElementById('updateColor').getAttribute('data-tablecolor'));
 		return;
 	}
 	game = document.getElementById('gameTable');
@@ -657,11 +669,12 @@ function UpMotion(line, column) {
 	CalcRank();
 
 	var flag = MoveFlag(line, column);
-	SetTableColor(line, column, document.getElementById('gameTable').getAttribute('data-tablecolor'));
+	SetTableColor(line, column, document.getElementById('updateColor').getAttribute('data-tablecolor'));
 	GameOver(flag, line, column);
 }
 
 function UnderMotion(line, column) {
+	console.log(document.getElementById('updateColor').getAttribute('data-tablecolor'));
 	var arrayArray = [];
 	var count = 0;
 	var blockArray = [];
@@ -699,7 +712,7 @@ function UnderMotion(line, column) {
 	}
 	TableSize('gameTable', column, line);
 	if (count == column) {
-		SetTableColor(line, column, document.getElementById('gameTable').getAttribute('data-tablecolor'));
+		SetTableColor(line, column, document.getElementById('updateColor').getAttribute('data-tablecolor'));
 		return;
 	}
 	game = document.getElementById('gameTable');
@@ -708,7 +721,7 @@ function UnderMotion(line, column) {
 	CalcRank();
 
 	var flag = MoveFlag(line, column);
-	SetTableColor(line, column, document.getElementById('gameTable').getAttribute('data-tablecolor'));
+	SetTableColor(line, column, document.getElementById('updateColor').getAttribute('data-tablecolor'));
 	GameOver(flag, line, column);
 }
 

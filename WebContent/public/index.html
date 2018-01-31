@@ -12,13 +12,13 @@
     <script src="js/bootstrap.min.js"></script>
     <title></title>
   </head>
-  <body class="bg-info">
-    <div id="menu">
-      <button type="button" class="btn-lg btn btn-success" style="margin: 0 auto; width: 100%">2048</button><br>
-      <button type="button" class="btn-lg btn btn-info" id="start" style="margin: 0 auto; width: 100%" data-line="4" data-column="4" onclick="StartGame()">4×4 START</button><br>
-      <button type="button" class="btn-lg btn btn-danger" style="margin: 0 auto; width: 100%" onclick = "Rank()">ランキング</button><br>
+  <body>
+    <div id="menu" style="text-align: center;">
+      <button type="button" class="btn-lg col-md-6">2048</button><br><br>
+      <button type="button" class="btn-lg col-md-6" id="start" data-line="4" data-column="4" onclick="StartGame()" style="background-color: #7FFF7F;">4×4 START</button><br><br>
+      <button type="button" class="btn-lg col-md-6" onclick = "Rank()" style="background-color: #7F7FFF;">ランキング</button><br><br>
     </div>
-    <div id="gameElement" style="display: none">
+    <div id="gameElement" style="display: none; text-align: center;">
       <div id="rankNumber" style="margin: 0 auto; width: 50px">
         <div id="ten" style="font-size: 26pt;"></div>
       </div>
@@ -27,14 +27,13 @@
       </div>
       <div id="gameover">
       </div>
-      <button type="button" class="btn-lg btn btn-danger" id="save" onclick="ReturnMenu()" style="margin: 0 auto; width: 100%" data-insertFlg="">メニューに戻る</button>
-      <button type="button" class="btn-lg btn btn-debug" id="updateColor" onclick="updateColor()" style="margin: 0 auto; width: 100%">色を変更</button>
-      <div id="nowColor"></div>
+      <button type="button" class="btn-lg col-md-6" id="save" onclick="ReturnMenu()" style="background-color: #FF7FFF;" data-insertFlg="">メニューに戻る</button>
+      <button type="button" class="btn-lg col-md-6" id="updateColor" onclick="updateColor()">色を変更</button>
     </div>
-    <div id="rankPage" style="display: none">
+    <div id="rankPage" style="display: none; text-align: center;">
       <table id="rankTable">
       </table>
-      <button type="button" class="btn-lg btn btn-danger" id="return" onclick="ReturnMenu2()" style="margin: 0 auto; width: 100%">メニューに戻る</button>
+      <button type="button" class="btn-lg col-md-6" id="return" onclick="ReturnMenu2()" style="background-color: #FF7FFF;">メニューに戻る</button>
     </div>
   </body>
 </html>
