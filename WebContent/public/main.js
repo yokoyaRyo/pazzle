@@ -294,6 +294,7 @@ function tdColor(flg) {
 	var color;
 }
 
+
 function ContinuGame() {
 	StartGame();
 }
