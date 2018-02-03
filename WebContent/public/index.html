@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
     <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="common.js"></script>
+    <script type="text/javascript" src="move.js"></script>
     <!-- BootstrapのCSS読み込み -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- jQuery読み込み -->
@@ -20,20 +22,23 @@
     </div>
     <div id="gameElement" style="display: none; text-align: center;">
       <div id="rankNumber" style="margin: 0 auto; width: 50px">
-        <div id="ten" style="font-size: 26pt;"></div>
+        <div id="ten" style="font-size: 26pt;" data-num="4">4</div>
       </div>
 
       <div id="table">
       </div>
       <div id="gameover">
       </div>
-      <button type="button" class="btn-lg col-md-6" id="save" onclick="ReturnMenu()" style="background-color: #FF7FFF;" data-insertFlg="">メニューに戻る</button>
+      <br>
+      <button type="button" class="btn-lg col-md-6" id="return" onclick="ReturnMenuFromGame()" style="background-color: #FF7FFF;" data-insertFlg="">メニューに戻る</button>
+      <br><br>
       <button type="button" class="btn-lg col-md-6" id="updateColor" onclick="updateColor()">色を変更</button>
     </div>
     <div id="rankPage" style="display: none; text-align: center;">
       <table id="rankTable">
       </table>
-      <button type="button" class="btn-lg col-md-6" id="return" onclick="ReturnMenu2()" style="background-color: #FF7FFF;">メニューに戻る</button>
+      <br>
+      <button type="button" class="btn-lg col-md-6" id="return2" onclick="ReturnMenuFromRankPage()" style="background-color: #FF7FFF;">メニューに戻る</button>
     </div>
   </body>
 </html>
