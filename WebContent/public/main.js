@@ -3,19 +3,21 @@ function Rank() {
 	menuElement.style.display='none';
 	document.getElementById('rankPage').style.display='';
 	$.ajax({
-	    url: 'http://localhost:8080/Pazzle/PazzleServlet',
 		type: 'GET',
 	    dataType: 'json',
+	    url: '../PazzleServlet',
 	    success: function (data) {
 	    	console.log("読み込み成功");
+	    	console.log(data);
 
+	    	var rankInfo = data;
 	    	var tableTag = document.getElementById('rankTable');
 	    	tableTag.setAttribute('style', 'margin: 0 auto;');
 	    	var count = data.length;
 	    	for(let i = 0; i < count; i++) {
 
-		    	var record = data.pop();
-		    	console.log(record);
+		    	var record = rankInfo[i];
+		    	console.log(record.player);
 
 		    	var trTag = CreateElement('tr', 'record' + (i + 1));
 	    		AddElement(tableTag, trTag);
@@ -31,6 +33,7 @@ function Rank() {
     			var playerTag = CreateElement('td', 'player' + (i + 1));
     			AddElement(trTag, playerTag);
     			playerTag.textContent = record.player;
+    			playerTag.setAttribute('data-player', record.player);
 	    	}
 	    },
 	    error: function (data) {
@@ -409,11 +412,11 @@ function InsertRank() {
 
 	var num = document.getElementById('ten').getAttribute('data-num');
 	var player = document.forms.form.textBox.value;
-
+	console.log('得点：' + num + ' プレイヤー：' + player);
 	$.ajax({
 	type: 'POST',
 	data: {'num': num, 'player': player},
-    url: 'http://localhost:8080/Pazzle/PazzleServlet',
+    url: '../PazzleServlet',
     dataType: 'json',
     success: function (data) {
     	console.log("読み込み成功");
@@ -423,7 +426,7 @@ function InsertRank() {
     }
     });
 
-	ReturnMenuFromGame();
+//	ReturnMenuFromGame();
 }
 
 function updateColor() {

@@ -27,16 +27,13 @@ public class ScoreDao {
 				String player = rs.getString("player");
 
 				JSONObject result = new JSONObject();
-				result.put("score:", score);
-				result.put("player:", player);
+				result.put("score", score);
+				result.put("player", player);
 
 				json.put(result);
 				System.out.println(json);
 			}
-
-
 			System.out.println("Dao;" + json);
-
 			stmt.close();
 			con.close();
 
@@ -49,7 +46,6 @@ public class ScoreDao {
 		}
 
 		return json;
-
 	}
 
 	public void InsertScore(String scoreStr, String player) {

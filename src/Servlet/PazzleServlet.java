@@ -15,22 +15,22 @@ import Dao.ScoreDao;
 public class PazzleServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("application/json;charset=UTF-8");
+		PrintWriter out = response.getWriter();//ここの順番はこれじゃないと文字化けする
 
 		System.out.println("SELECT");
 		ScoreDao scoreDao = new ScoreDao();
-
-		JSONArray json = scoreDao.selectScore();
+		JSONArray json = new JSONArray();
+		json = scoreDao.selectScore();
 
 		System.out.println("ダオの後" + json);
-
 		out.println(json);
+		out.flush();
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
 		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
 
 		System.out.println("INSERT");
 		ScoreDao scoreDao = new ScoreDao();

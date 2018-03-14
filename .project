@@ -3,6 +3,7 @@
 	<name>Pazzle</name>
 	<comment></comment>
 	<projects>
+		<project>spring-web-4.2.3.RELEASE</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -6,12 +6,13 @@ import java.sql.SQLException;
 
 public class DBAccess {
 	public Connection dbAccess() {
+		System.out.println("DBAccess");
 		Connection connection = null;
 		try {
 			Class.forName("org.postgresql.Driver");
 
 			String url = "jdbc:postgresql://localhost:5432/pazzle";
-			String user = "axizuser";
+			String user = "postgres";
 			String pass = "axiz";
 			connection = DriverManager.getConnection(url, user, pass);
 			System.out.println("DBにアクセスしました。");
